@@ -1,0 +1,6 @@
+{
+  "name": "DevOps App",
+  "short_name": "DevOps",
+  "start_url": "/",
+  "display": "standalone"
+}
