@@ -39,3 +39,11 @@ jobs:
           test -f terraform/ecs-fargate/vpc.tf
           test -f terraform/ecs-fargate/alb.tf
           test -f terraform/ecs-fargate/repo.tf
+
+      - name: Build Docker image
+        run: |
+          docker build -t devops-app:test ./app
+
+      - name: Verify Docker image
+        run: |
+          docker images | grep devops-app    
