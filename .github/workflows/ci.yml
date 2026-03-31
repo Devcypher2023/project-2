@@ -47,3 +47,30 @@ jobs:
       - name: Verify Docker image
         run: |
           docker images | grep devops-app    
+
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ACTION_ROLE }}
+          aws-region: us-east-1
+
+      - name: Log in to Amazon ECR
+        id: ecr-login
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Verify ECR login output
+        run: |
+          echo "Logged into ECR registry: ${{ steps.ecr-login.outputs.registry }}"    
+
+
+      - name: Set image tag
+        run: echo "IMAGE_TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV
+
+      - name: Build Docker image for ECR
+        run: |
+          docker build -t ${{ steps.ecr-login.outputs.registry }}/devops-fargate-repo:${IMAGE_TAG} ./app
+
+      - name: Verify Docker image exists
+        run: |
+          docker images | grep devops-fargate-repo
