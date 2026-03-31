@@ -19,7 +19,7 @@ resource "aws_iam_role" "github_actions_role" {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
           }
           StringLike = {
-            "token.actions.githubusercontent.com:sub" = "repo:YOUR_GITHUB_USERNAME/YOUR_REPO_NAME:*"
+            "token.actions.githubusercontent.com:sub" = "repo:Devcypher2023/project-2:*"
           }
         }
       }
