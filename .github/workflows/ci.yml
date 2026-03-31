@@ -10,9 +10,16 @@ permissions:
   id-token: write
   contents: read
 
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: devops-fargate-repo
+
 jobs:
-  validate-files:
+  validate-and-build:
     runs-on: ubuntu-latest
+
+    outputs:
+      image_tag: ${{ steps.set-tag.outputs.image_tag }}
 
     steps:
       - name: Checkout source code
@@ -39,42 +46,56 @@ jobs:
       - name: Validate required terraform files
         run: |
           test -f terraform/docker-server/main.tf
+          test -f terraform/docker-server/iam.tf
           test -f terraform/ecs-fargate/ecs.tf
           test -f terraform/ecs-fargate/vpc.tf
           test -f terraform/ecs-fargate/alb.tf
           test -f terraform/ecs-fargate/repo.tf
+          test -f terraform/ecs-fargate/oidc.tf
 
-      - name: Build Docker image
+      - name: Set image tag
+        id: set-tag
+        run: echo "image_tag=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
+      - name: Build local test image
         run: |
           docker build -t devops-app:test ./app
 
-      - name: Verify Docker image
+      - name: Verify local test image
         run: |
-          docker images | grep devops-app    
+          docker images | grep devops-app
 
-      
+  push-to-ecr:
+    runs-on: ubuntu-latest
+    needs: validate-and-build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v5
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ACTION_ROLE }}
-          aws-region: us-east-1
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Confirm AWS identity
+        run: aws sts get-caller-identity
 
       - name: Log in to Amazon ECR
         id: ecr-login
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Verify ECR login output
+      - name: Build image for ECR
         run: |
-          echo "Logged into ECR registry: ${{ steps.ecr-login.outputs.registry }}"    
+          docker build -t ${{ steps.ecr-login.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ needs.validate-and-build.outputs.image_tag }} ./app
+          docker tag ${{ steps.ecr-login.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ needs.validate-and-build.outputs.image_tag }} ${{ steps.ecr-login.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
 
-
-      - name: Set image tag
-        run: echo "IMAGE_TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV
-
-      - name: Build Docker image for ECR
+      - name: Push image tag
         run: |
-          docker build -t ${{ steps.ecr-login.outputs.registry }}/devops-fargate-repo:${IMAGE_TAG} ./app
+          docker push ${{ steps.ecr-login.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ needs.validate-and-build.outputs.image_tag }}
 
-      - name: Verify Docker image exists
+      - name: Push latest tag
         run: |
-          docker images | grep devops-fargate-repo
+          docker push ${{ steps.ecr-login.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
