@@ -17,3 +17,8 @@ output "alb_dns_name" {
   description = "Public DNS name of the Application Load Balancer"
   value       = aws_lb.app_alb.dns_name
 }
+
+output "github_actions_role_arn" {
+  description = "IAM role ARN for GitHub Actions"
+  value       = aws_iam_role.github_actions_role.arn
+}
