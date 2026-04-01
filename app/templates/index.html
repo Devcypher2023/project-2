@@ -1,12 +1,248 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>DevOps App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charleston Matalda | DevOps Engineer</title>
+
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+
+    <style>
+        :root {
+            --bg: #0f172a;
+            --panel: #111827;
+            --panel-2: #1f2937;
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --accent: #38bdf8;
+            --accent-2: #22c55e;
+            --border: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #111827);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 32px 20px;
+        }
+
+        .hero, .section {
+            background: rgba(17, 24, 39, 0.9);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            margin: 0 0 8px;
+            font-size: 2.4rem;
+            color: var(--accent);
+        }
+
+        .hero h2 {
+            margin: 0 0 16px;
+            font-size: 1.1rem;
+            font-weight: normal;
+            color: var(--muted);
+        }
+
+        .contact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: var(--accent-2);
+            color: #04130a;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 999px;
+            font-weight: bold;
+        }
+
+        .section h3 {
+            margin-top: 0;
+            color: var(--accent);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 8px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 12px;
+        }
+
+        .skill-card {
+            background: var(--panel-2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px;
+        }
+
+        .job {
+            margin-bottom: 22px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .job:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .job-title {
+            font-weight: bold;
+            color: var(--text);
+        }
+
+        .job-meta {
+            color: var(--muted);
+            margin-bottom: 10px;
+        }
+
+        ul {
+            margin: 8px 0 0 20px;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>🚀 DevOps CI/CD App Running</h1>
-    <p>If you see this, your container works.</p>
+    <div class="container">
 
-    <a href="/download-pdf">Download PDF</a>
+        <section class="hero">
+            <h1>Charleston Matalda</h1>
+            <h2>DevOps Engineer | Cloud / Platform Engineering | DevSecOps</h2>
+
+            <div class="contact">
+                <span>Moorhead, MN</span>
+                <span>701-317-5128</span>
+                <span>matalda5000@gmail.com</span>
+                <span>linkedin.com/in/matacp</span>
+            </div>
+
+            <a href="/download-pdf" class="download-btn">Download Resume PDF</a>
+        </section>
+
+        <section class="section">
+            <h3>Professional Summary</h3>
+            <p>
+                DevOps Engineer with 4+ years of experience supporting production environments across
+                financial services/fintech and large-scale manufacturing. Strong hands-on background in
+                CI/CD automation, infrastructure as code, Kubernetes, cloud operations, observability,
+                and DevSecOps controls. Skilled at partnering with engineering, security, and operations
+                teams to improve deployment reliability, environment consistency, and incident response.
+            </p>
+        </section>
+
+        <section class="section">
+            <h3>Skills</h3>
+            <div class="skills-grid">
+                <div class="skill-card"><strong>Cloud</strong><br>AWS, Azure</div>
+                <div class="skill-card"><strong>CI/CD & Release</strong><br>GitHub Actions, GitLab CI, Jenkins, Azure DevOps</div>
+                <div class="skill-card"><strong>IaC & Config</strong><br>Terraform, CloudFormation, ARM/Bicep exposure</div>
+                <div class="skill-card"><strong>Containers & Kubernetes</strong><br>Docker, Kubernetes, Helm, ingress, autoscaling</div>
+                <div class="skill-card"><strong>GitOps & CD</strong><br>Argo CD, Flux</div>
+                <div class="skill-card"><strong>Observability</strong><br>Prometheus, Grafana, CloudWatch, ELK/Splunk exposure</div>
+                <div class="skill-card"><strong>DevSecOps</strong><br>IAM least privilege, secrets management, image scanning, SBOM awareness</div>
+                <div class="skill-card"><strong>OS / Scripting</strong><br>Linux, Bash, PowerShell, Python</div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h3>Professional Experience</h3>
+
+            <div class="job">
+                <div class="job-title">Engineering Technician (DevOps / Platform Support) — John Deere</div>
+                <div class="job-meta">Fargo, ND | 03/2023 – Present</div>
+                <ul>
+                    <li>Own day-to-day support for engineering platforms by stabilizing build and deployment workflows, triaging pipeline failures, and reducing repeat incidents through durable fixes and clearer documentation.</li>
+                    <li>Implement and maintain CI/CD pipeline standards including branching strategies, quality gates, artifact handling, and environment variables.</li>
+                    <li>Automate infrastructure and environment provisioning using Terraform-first patterns with reusable modules and input validation.</li>
+                    <li>Support containerized workloads by standardizing Docker images, Helm charts, and Kubernetes manifests, including health checks and rollout strategies.</li>
+                    <li>Strengthen observability through improved metrics, alerting, dashboards, and tuned thresholds for faster detection and recovery.</li>
+                    <li>Build runbooks, release checklists, and troubleshooting guides to improve reliability and deployment confidence.</li>
+                </ul>
+            </div>
+
+            <div class="job">
+                <div class="job-title">DevOps / Cloud Engineer — GreenSky</div>
+                <div class="job-meta">FinTech | 04/2022 – 02/2023</div>
+                <ul>
+                    <li>Built and enhanced automated delivery pipelines supporting cloud-hosted applications.</li>
+                    <li>Provisioned and maintained AWS infrastructure using Terraform and CloudFormation patterns.</li>
+                    <li>Supported Kubernetes-based deployments with EKS workloads, Helm releases, ingress routing, and rollback-aware deployment strategies.</li>
+                    <li>Integrated practical DevSecOps controls including container image scanning and dependency visibility into pipeline workflows.</li>
+                    <li>Improved runtime visibility with dashboards, alerts, and log routing patterns for better on-call troubleshooting.</li>
+                </ul>
+            </div>
+
+            <div class="job">
+                <div class="job-title">Cloud / DevOps Engineer — Axos Financial</div>
+                <div class="job-meta">01/2020 – 03/2022</div>
+                <ul>
+                    <li>Supported production and pre-production environments by maintaining CI/CD workflows and cloud infrastructure.</li>
+                    <li>Automated infrastructure provisioning using modular Terraform practices and standardized naming/tagging.</li>
+                    <li>Improved pipeline reliability through better validation, artifact handling, and clearer error reporting.</li>
+                    <li>Improved Docker build consistency and runtime configuration patterns for smoother deployments.</li>
+                    <li>Created runbooks, deployment standards, and environment documentation to reduce tribal knowledge.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section two-col">
+            <div>
+                <h3>Education</h3>
+                <p><strong>Bachelor of Science:</strong> Electrical and Electronics Engineering</p>
+                <p>University of North Dakota — Grand Forks, ND</p>
+            </div>
+
+            <div>
+                <h3>Certifications</h3>
+                <ul>
+                    <li>AWS Certified CloudOps Engineer – Associate</li>
+                    <li>Certified Kubernetes Administrator</li>
+                </ul>
+            </div>
+        </section>
+
+    </div>
 </body>
 </html>
